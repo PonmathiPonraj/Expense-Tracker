@@ -3,37 +3,33 @@ import classes from './Login.module.css';
 import AuthContext from '../../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
+// Import or define the eye icon URL
+const eyeIconUrl = 'https://tse3.mm.bing.net/th?id=OIP.32AFxKPGbh-H_qiUQDPMfwHaHa&pid=Api&P=0&h=220';
+
 const Login = () => {
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false); 
     const authCtx = useContext(AuthContext);
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
-    const confirmPasswordInputRef = useRef(); // Move it here
 
     const submitHandler = (event) => {
         event.preventDefault();
-        console.log("yes you clicked submit");
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
-        const enteredConfirmPassword = confirmPasswordInputRef.current.value;
 
         localStorage.setItem('email', enteredEmail);
         setIsLoading(true);
         let url;
 
         if (isLogin) {
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCgl1Kkkaw7_gJny8ISnqxhFean3l_05B8';
+            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=YOUR_API_KEY';
         } else {
-            if (enteredPassword !== enteredConfirmPassword) {
-              alert('Passwords do not match.');
-              setIsLoading(false);
-              return;
-            }
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCgl1Kkkaw7_gJny8ISnqxhFean3l_05B8';
+            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=YOUR_API_KEY';
         }
-
+        
         fetch(url, {
             method: 'POST',
             body: JSON.stringify({
@@ -48,13 +44,12 @@ const Login = () => {
         .then((res) => {
             setIsLoading(false);
             if (res.ok) {
-                navigate('/')
+                navigate('/');
                 return res.json();
-            }
-            else {
+            } else {
                 if (!res.ok) {
                     return res.json().then((data) => {
-                        let errorMessage = "Authentication unsuccessful";
+                        let errorMessage = 'Authentication unsuccessful';
                         if (data && data.error && data.error.message) {
                             errorMessage = data.error.message;
                         }
@@ -62,49 +57,61 @@ const Login = () => {
                     });
                 }
             }
-            }).then((data) => {
-                authCtx.login(data.idToken);
-                // history.push('/')
-            }).catch((err) => {
-                alert(err.message)
-            })
-        };
-      
-        const switchAuthModeHandler = () => {
-            setIsLogin((prevState) => !prevState);
-        };
-      
-        return (
-            <div>
-                <section className={classes.auth}>
-                    <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-                    <form onSubmit={submitHandler}>
+        })
+        .then((data) => {
+            authCtx.login(data.idToken);
+        })
+        .catch((err) => {
+            alert(err.message);
+        });
+    };
+
+    const switchAuthModeHandler = () => {
+        setIsLogin((prevState) => !prevState);
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword((prevState) => !prevState);
+    };
+
+    return (
+        <div>
+            <section className={classes.auth}>
+                <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
+                <form onSubmit={submitHandler}>
                     <div className={classes.control}>
-                        <label htmlFor='email'>Your Email</label>
-                        <input type='email' id='email' required ref={emailInputRef} />
+                        <label htmlFor="email">Your Email</label>
+                        <input type="email" id="email" required ref={emailInputRef} />
                     </div>
                     <div className={classes.control}>
-                        <label htmlFor='password'>Your Password</label>
-                        <input type='password' id='password' required ref={passwordInputRef} />
-                    </div>
-                    {/* Add a conditional check for Confirm Password */}
-                    {!isLogin && (
-                        <div className={classes.control}>
-                            <label htmlFor='confirm-password'>Confirm Password</label>
+                        <label htmlFor="password">Your Password</label>
+                        <div className={classes.passwordInput}>
                             <input
-                                type='password'
-                                id='confirm-password'
+                                type={showPassword ? 'text' : 'password'}
+                                id="password"
                                 required
-                                ref={confirmPasswordInputRef}
+                                ref={passwordInputRef}
                             />
+                            <button
+                                type="button"
+                                className={classes.togglePassword}
+                                onClick={togglePasswordVisibility}
+                            >
+                                <img
+                                    src={eyeIconUrl}
+                                    alt={showPassword ? 'Hide Password' : 'Show Password'}
+                                    className={classes.eyeIcon}
+                                />
+                            </button>
                         </div>
-                    )}
+                    </div>
                     <div className={classes.actions}>
                         {!isLoading && (
-                            <button type='submit'>{isLogin ? 'Login' : 'Sign up'}</button>
+                            <button type="submit">{isLogin ? 'Login' : 'Sign up'}</button>
                         )}
+                        <div>Forgot Password</div>
                         <button
-                            type='button'
+                            type="button"
                             className={classes.toggle}
                             onClick={switchAuthModeHandler}
                         >
