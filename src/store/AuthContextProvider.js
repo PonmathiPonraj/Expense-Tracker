@@ -1,9 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AuthContext from "./AuthContext.js";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 
 const AuthContextProvider = (props) => {
     const [token, setToken] = useState(null);
+    const [isEmailVerified, setIsEmailVerified] = useState(false);
     const userIsLoggedIn = !!token;
+
+    useEffect(() => {
+        // Check if the user's email is verified when the component mounts
+        const user = firebase.auth().currentUser;
+        if (user) {
+            setIsEmailVerified(user.emailVerified);
+        }
+    }, [token]);
 
     const loginHandler = (token) => {
         if (typeof token === 'string' && token.trim() !== '') {
@@ -17,11 +28,13 @@ const AuthContextProvider = (props) => {
 
     const logoutHandler = () => {
         setToken(null);
+        setIsEmailVerified(false); // Reset email verification status on logout
     }
 
     const contextValue = {
         token: token,
         isLoggedIn: userIsLoggedIn,
+        isEmailVerified: isEmailVerified,
         login: loginHandler,
         logout: logoutHandler,
     }
