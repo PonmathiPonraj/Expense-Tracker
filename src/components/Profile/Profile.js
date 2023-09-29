@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState, useEffect } from 'react';
 import AuthContext from '../../store/AuthContext';
 import './Profile.module.css';
 
@@ -6,6 +6,29 @@ const Profile = () => {
     const authCtx = useContext(AuthContext);
     const nameInputRef = useRef();
     const imageInputRef = useRef();
+    const [profileData, setProfileData] = useState({ name: '', photoUrl: '' });
+
+    // Function to fetch user profile data
+    const fetchUserProfileData = async () => {
+        const token = authCtx.token;
+        try {
+            const response = await fetch('https://your-firebase-database-url.com/userProfile.json?auth=' + token);
+            if (!response.ok) {
+                throw new Error('Failed to fetch user profile data.');
+            }
+            const data = await response.json();
+            if (data) {
+                setProfileData(data);
+            }
+        } catch (error) {
+            console.error('Error fetching user profile data:', error);
+        }
+    };
+
+    useEffect(() => {
+        // Fetch user profile data when the component mounts
+        fetchUserProfileData();
+    }, []);
 
     const submitHandler = async (event) => {
         event.preventDefault();
@@ -17,7 +40,7 @@ const Profile = () => {
         }
         const token = authCtx.token;
         try {
-            const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCgl1Kkkaw7_gJny8ISnqxhFean3l_05B8', {
+            const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:update?key=YOUR_API_KEY', {
                 method: 'POST',
                 body: JSON.stringify({
                     idToken: token,
@@ -29,7 +52,6 @@ const Profile = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-
             });
             if (response.ok) {
                 alert('Profile updated successfully');
@@ -46,20 +68,21 @@ const Profile = () => {
     return (
         <form onSubmit={submitHandler}>
             <div className="mb-3">
-                <label htmlFor="name" className="form-label">
-                    Name
-                </label>
-                <input type="text" className="form-control" id="name" placeholder="Name" ref={nameInputRef} />
+                <label htmlFor="name" className="form-label">Name</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="name"
+                    placeholder="Name"
+                    ref={nameInputRef}
+                    defaultValue={profileData.name}
+                />
             </div>
             <div className="mb-3">
-                <label htmlFor="photo" className="form-label">
-                    Update your photo
-                </label>
+                <label htmlFor="photo" className="form-label">Update your photo</label>
                 <input type="file" className="form-control" id="photo" ref={imageInputRef} />
             </div>
-            <button type="submit" className="btn btn-primary">
-                Update details
-            </button>
+            <button type="submit" className="btn btn-primary">Update details</button>
         </form>
     );
 };
