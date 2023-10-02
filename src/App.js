@@ -1,35 +1,24 @@
-import React, { useContext } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Login from './components/Login/Login';
+import './App.css';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'; // Use BrowserRouter as Router
 import Home from './components/Home/Home';
-import MainNavigation from './MainNavigation';
+import AuthContextProvider from './store/AuthContext';
+import UpdateProfile from './UpdateDetail/UpdateDetail';
 import Profile from './components/Profile/Profile';
-import AuthContext from './store/AuthContext';
-import VerifyEmailButton from './components/VerifyEmailButton'; 
+import Login from './components/Login/Login';
 
 function App() {
-  const authCtx = useContext(AuthContext); // Get the authentication context
-
   return (
-    <Router>
-      <MainNavigation />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Login" element={<Login />} />
-        <Route
-          path="/profile"
-          element={
-            <>
-              <Profile />
-              {authCtx.isLoggedIn && !authCtx.isEmailVerified && (
-                <VerifyEmailButton />
-              )}
-            </>
-          }
-        />
-      </Routes>
-    </Router>
+    <AuthContextProvider>
+      <Router>
+        <Routes> {/* Use Routes to define your routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/Login" element={<Login/>}/>
+          <Route path="/updateprofile" element={<UpdateProfile />} />
+          <Route path="/completeprofile" element={<Profile />} />
+        </Routes>
+      </Router>
+    </AuthContextProvider>
   );
-}
+};
 
 export default App;

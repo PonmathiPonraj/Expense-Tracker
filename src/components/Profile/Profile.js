@@ -1,6 +1,6 @@
 import React, { useRef, useContext, useState, useEffect } from 'react';
-import AuthContext from '../store/AuthContext';
-import './Profile.css'
+import AuthContext from '../../store/AuthContext';
+import './Profile.module.css'
 
 const Profile = () => {
     const authCtx = useContext(AuthContext);
