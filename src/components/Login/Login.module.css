@@ -1,93 +1,51 @@
+
 .auth {
-    margin: 3rem auto;
-    width: 95%;
-    max-width: 25rem;
-    border-radius: 6px;
-    background-color: #5e0ff0;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    padding: 1rem;
-    text-align: center;
-  }
-  .auth h1 {
-    text-align: center;
-    color: white;
-  }
-  .control {
-    margin-bottom: 0.5rem;
-  }
-  .control label {
-    display: block;
-    color: white;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  .control input {
-    font: inherit;
-    background-color: #f1e1fc;
-    color: #38015c;
-    border-radius: 4px;
-    border: 1px solid white;
-    width: 100%;
-    text-align: left;
-    padding: 0.25rem;
-  }
-  .actions {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .actions button {
-    cursor: pointer;
-    font: inherit;
-    color: white;
-    background-color: #9f5ccc;
-    border: 1px solid #9f5ccc;
-    border-radius: 4px;
-    padding: 0.5rem 2.5rem;
-  }
-  .actions button:hover {
-    background-color: #873abb;
-    border-color: #873abb;
-  }
-  .actions .toggle {
-    margin-top: 1rem;
-    background-color: transparent;
-    color: #9f5ccc;
-    border: none;
-    padding: 0.15rem 1.5rem;
-  }
-  .actions .toggle:hover {
-    background-color: transparent;
-    color: #ae82cc;
-  }
- /* Add this CSS to style the password input container */
-.passwordInput {
-  position: relative;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
-/* Add this CSS to style the eye icon */
-.eyeIcon {
-  width: 20px; /* Adjust the width as needed */
-  height: auto; /* Maintain aspect ratio */
-  cursor: pointer; /* Change cursor to pointer on hover */
-  position: absolute;
-  right: 10px; /* Adjust the right position as needed */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%);
+.auth h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
 }
-/* Add this CSS to style the eye icon */
-.eyeIcon {
-    width: 20px; /* Adjust the width as needed */
-    height: auto; /* Maintain aspect ratio */
-    cursor: pointer; /* Change cursor to pointer on hover */
-    position: absolute;
-    right: 10px; /* Adjust the right position as needed */
-    top: 50%; /* Center vertically */
-    transform: translateY(-50%);
-  }
-  
-  /* Optionally, you can add hover effects for the eye icon */
-  .eyeIcon:hover {
-    opacity: 0.7; /* Adjust opacity on hover */
-  }
+
+.auth .control {
+  margin-bottom: 10px;
+}
+
+.auth label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.auth input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.auth .actions {
+  text-align: center;
+}
+
+.auth button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.auth button.toggle {
+  background-color: #ccc;
+  color: #000;
+}
