@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AuthContext from "./AuthContext.js";
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 import "firebase/auth";
 
 const AuthContextProvider = (props) => {

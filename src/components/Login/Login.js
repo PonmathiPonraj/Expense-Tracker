@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext } from 'react';
 import AuthContext from '../../store/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import styles from './Login.module.css';
 
 const Login = () => {
@@ -81,6 +81,7 @@ const Login = () => {
               <input type="password" id="confirmPassword" required ref={confirmPasswordInputRef} />
             </div>
           )}
+          <Link to="/forgotpassword">Forgot Password</Link>
           <div className="actions">
             {!isLoading && <button type="submit">{isLogin ? 'Login' : 'Sign up'}</button>}
             <button
