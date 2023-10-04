@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ExpenseForm = () => {
     const [moneySpent, setMoneySpent] = useState('');
@@ -32,7 +32,48 @@ const ExpenseForm = () => {
         setMoneySpent('');
         setDescription('');
         setCategory('');
+        fetch('https://expensetracker-411c3-default-rtdb.firebaseio.com/expenses.json', {
+            method: 'POST',
+            body: JSON.stringify(newExpense),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Failed to add the expense');
+            }
+            // Clear the form fields
+            setMoneySpent('');
+            setDescription('');
+            setCategory('');
+            return response.json();
+        })
+        .catch((error) => {
+            console.error(error);
+        });
     };
+
+    useEffect(() => {
+        // Perform a GET request to fetch expenses data when the component mounts
+        fetch('https://expensetracker-411c3-default-rtdb.firebaseio.com/expenses.json')
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch expenses');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            // Process the data as needed and set it in state
+            if (data) {
+                const expensesArray = Object.values(data);
+                setExpenses(expensesArray);
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }, []); 
 
     return (
         <div>
