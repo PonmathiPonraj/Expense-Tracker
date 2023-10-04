@@ -1,0 +1,29 @@
+.expenseForm {
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #f7f7f7;
+    margin-bottom: 20px;
+}
+
+.expenseForm label {
+    font-weight: bold;
+}
+
+.expenseForm input[type="number"],
+.expenseForm input[type="text"],
+.expenseForm select {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.expenseForm button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
