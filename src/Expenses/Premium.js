@@ -1,13 +1,17 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { premiumActions } from '../store/PremiumSlice';
+import { darkModeActions } from '../store/DarkModeSlice';
 
 const Premium = () => {
     const dispatch = useDispatch();
+    const isPremium = useSelector((state) => state.premium.isPremium)
 
     const activatePremiumHandler = () => {
         dispatch(premiumActions.setPremium());
+        console.log('premium is activated')
         alert('Enjoy your premium free trial for 30 days for free');
+        console.log(isPremium)
     };
 
     const premiumButtonStyle = {
@@ -19,11 +23,16 @@ const Premium = () => {
         cursor: 'pointer', // Change cursor to pointer on hover
     };
 
+    const darkModeHandler=()=>{
+        dispatch(darkModeActions.toggleDarkMode());
+    }
+
     return (
         <div style={{ textAlign: 'center' }}>
             <button style={premiumButtonStyle} onClick={activatePremiumHandler}>
                 Upgrade to Premium
             </button>
+            {isPremium && <button onClick={darkModeHandler}>Dark Mode </button>}
         </div>
     );
 };

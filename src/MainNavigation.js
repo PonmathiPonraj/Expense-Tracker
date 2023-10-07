@@ -1,31 +1,38 @@
-import React, { useContext } from 'react';
+import { useDispatch,useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import AuthContext from './store/AuthContext';
-import classes from './MainNavigation.module.css'
+//import AuthContext from './store/AuthContext';
+import { authActions } from './store/authSlice';
+import classes from './MainNavigation.module.css';
+//import { darkModeActions } from './store/DarkModeSlice';
 
 const MainNavigation = () => {
     const navigate = useNavigate();
-    const authCtx = useContext(AuthContext);
+    console.log('mainNavigation rerendered')
+   // const authCtx = useContext(AuthContext);
+    const dispatch=useDispatch();
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  
+    const isPremium=useSelector((state)=>state.premium.isPremium);
+  
+    console.log('isPremium:',isPremium);
     const logoutHandler = () => {
-        // Clear the idToken from local storage
+
         localStorage.removeItem('idToken');
-
-        // Clear any other user-related data
-
-        // Call the logout method from your AuthContext to update the authentication state
-        authCtx.logout();
-        //authCtx.setIsLoggedIn(false); // Set isLoggedIn to false
-
-        // Redirect to the login page
+        dispatch(authActions.logout());
+        // authCtx.logout();
         navigate('/Login');
     };
 
+    //{isPremium && <button onClick={darkModeHandler}>Dark Mode </button>}
     return (
         <header className={classes.header}>
             <nav>
                 <ul>
                     <li>
                         <Link to="/">Home</Link>
+                    </li>
+                    <li>
+
                     </li>
                     <li>
                         <Link to="/products">Products</Link>
@@ -35,7 +42,7 @@ const MainNavigation = () => {
                     </li>
                 </ul>
             </nav>
-            {authCtx.isLoggedIn && (
+            {isLoggedIn && (
                 <button onClick={logoutHandler}>Logout</button>
             )}
         </header>

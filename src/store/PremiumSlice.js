@@ -1,18 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialPremiumState={
+
+const initialPremiumState = {
     isPremium:false,
 }
-export const premiumSlice=createSlice({
-    name:'premium',
-    initialState:initialPremiumState,
-    reducers:{
-        setPremium (state){
+
+export const premiumSlice = createSlice({
+    name: 'premium',
+    initialState: initialPremiumState,
+    reducers: {
+        setPremium (state) {
             state.isPremium=true
         },
-        disablePremium(state){
+        disablePremium(state) {
             state.isPremium=false
         }
     }
 })
 
-export const premiumActions=premiumSlice.actions;
+export const premiumActions = premiumSlice.actions;
